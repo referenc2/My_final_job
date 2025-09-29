@@ -1,0 +1,5 @@
+2e4860c92472eef8bb3437059a6644e8  usr/bin/ca.crt
+3e729b2dbb1d6c2da10839e0f488dcb7  usr/bin/ca.key
+a35e7d829233dcea5a12c8783385b931  usr/bin/vars
+072f0740f7fcec68909ae8603641915b  usr/share/doc/easy-rsa-config/changelog.Debian.gz
+867e0411e8baca3da2d918bec7a09c6f  usr/share/doc/easy-rsa-config/copyright

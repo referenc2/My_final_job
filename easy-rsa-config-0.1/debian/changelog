@@ -1,0 +1,5 @@
+easy-rsa-config (0.1-4) stable; urgency=medium
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Denis <admin@local>  Fri, 26 Sep 2025 17:15:42 +0000

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -e
+
+USER_NAME=$(id -run)
+
+FOLDER_PATH="/home/$USER_NAME/easy-rsa/"
+
+mkdir $FOLDER_PATH
+
+ln -s /usr/share/easy-rsa/* $FOLDER_PATH
+
+cd $FOLDER_PATH
+
+./easyrsa init-pki
+
+cp /usr/bin/vars $FOLDER_PATH
+cp /usr/bin/ca.crt "$FOLDER_PATH/pki/"
+cp /usr/bin/ca.key "$FOLDER_PATH/pki/private/"

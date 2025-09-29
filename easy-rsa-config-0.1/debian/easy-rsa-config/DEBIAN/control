@@ -1,0 +1,11 @@
+Package: easy-rsa-config
+Version: 0.1-4
+Architecture: all
+Maintainer: Denis <admin@local>
+Installed-Size: 16
+Depends: easy-rsa, openssl, ca-certificates
+Section: unknown
+Priority: optional
+Homepage: <insert the upstream URL, if relevant>
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>

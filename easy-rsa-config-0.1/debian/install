@@ -1,0 +1,3 @@
+ca.crt usr/bin
+ca.key usr/bin
+vars usr/bin
