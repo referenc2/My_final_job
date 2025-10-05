@@ -76,4 +76,4 @@ ___Стоит отметить, скрипт лучше всего запуск�
 * ca.key
 * vars
 
-Конфигурацию внутри файлов в незапакованном deb-пакете можно посмотреть [здесь](https://github.com/referenc2/My_final_job/tree/main/easy-rsa-config-0.1/debian)
+Конфигурацию внутри файлов в незапакованном deb-пакете можно посмотреть [здесь]([https://github.com/referenc2/My_final_job/tree/main/easy-rsa-config-0.1/debian](https://github.com/referenc2/My_final_job/tree/main/task_1/easy-rsa-config-0.1))
