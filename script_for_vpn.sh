@@ -13,6 +13,8 @@ else
 	sudo apt-get install -y openvpn
 fi
 
+echo "Configuring server.conf..."
+
 cp /usr/share/doc/openvpn/examples/sample-config-files/server.conf /etc/openvpn/server/
 
 sed -ie '/tls-auth ta.key 0/a\tls-crypt ta.key 
@@ -25,11 +27,17 @@ s/dh dh2048.pem/;dh dh2048.pem/
 s/;user nobody/user nobody/
 s/;group nobody/group nobody/' /etc/openvpn/server/server.conf
 
-sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf
+echo "Configuring sysctl.conf"
 
+sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf
 sysctl -p
 
 systemctl -f enable openvpn-server@server.service
 systemctl start openvpn-server@server.service
 
+if [ -d "/etc/openvpn/client/"]
+	echo "Configuring sysctl.conf"
+	cp /usr/share/doc/openvpn/examples/sample-config-files/client.conf etc/openvpn/client/base.conf
+	
+	
 
