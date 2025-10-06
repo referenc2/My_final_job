@@ -1,0 +1,6 @@
+ca.crt /etc/openvpn/server/
+server.conf /etc/openvpn/server/
+server.crt /etc/openvpn/server/
+server.key /etc/openvpn/server/
+ta.key /etc/openvpn/server/
+client-1.ovpn /etc/openvpn/client/

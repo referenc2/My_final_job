@@ -1,0 +1,6 @@
+./ca.crt
+./server.conf
+./server.crt
+./server.key
+./ta.key
+./client-1.ovpn

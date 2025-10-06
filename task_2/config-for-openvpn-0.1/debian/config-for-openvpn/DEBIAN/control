@@ -1,0 +1,11 @@
+Package: config-for-openvpn
+Version: 0.1-1
+Architecture: all
+Maintainer: Denis <admin@local>
+Installed-Size: 48
+Depends: openvpn, easy-rsa
+Section: unknown
+Priority: optional
+Homepage: <insert the upstream URL, if relevant>
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>
