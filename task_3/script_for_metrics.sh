@@ -44,4 +44,29 @@ else
 	apt-get install -y docker-compose-v2
 fi
 
-curl -sSL https://raw.githubusercontent.com/B4DCATs/openvpn_exporter/main/quick-start.sh | bash 
+cp -rf /etc/prometheus/prometheus.yml /etc/prometheus/prometheus.yml.backup-$(date +"%d-%m-%Y")
+
+cat << EOF >> /etc/prometheus/prometheus.yml
+
+  - job_name: prometheus-alertmanager
+    static_configs:
+      - targets: [localhost:9093]
+EOF
+
+dpkg --status openvpn &> /dev/null
+
+if [ $? -ne 0 ]; then
+	exit 0
+fi	
+	
+curl -sSL https://raw.githubusercontent.com/B4DCATs/openvpn_exporter/main/quick-start.sh | bash
+
+cat << EOF >> /etc/prometheus/prometheus.yml
+
+  - job_name: openvpn_exporter
+    static_configs:
+      - targets: [localhost:9176]
+EOF
+
+systemctl restart prometheus
+systemctl status prometheus
