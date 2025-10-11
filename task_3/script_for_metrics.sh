@@ -56,6 +56,13 @@ EOF
 dpkg --status openvpn &> /dev/null
 
 if [ $? -ne 0 ]; then
+	read -p "enter the IP address of the main prometheus server: " MAIN_PROMETHEUS
+	iptables -A INPUT -s $MAIN_PROMETHEUS -p tcp -m tcp --dport 9090 -j ACCEPT
+	iptables -A INPUT -s $MAIN_PROMETHEUS -p tcp -m tcp --dport 9100 -j ACCEPT
+	iptables -A INPUT -s $MAIN_PROMETHEUS -p tcp -m tcp --dport 9176 -j ACCEPT
+	iptables -A INPUT -s $MAIN_PROMETHEUS -p tcp -m tcp --dport 9093 -j ACCEPT
+	systemctl restart prometheus
+	systemctl status prometheus
 	exit 0
 fi	
 	
