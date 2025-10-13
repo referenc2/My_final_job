@@ -1,0 +1,96 @@
+Description: <short summary of the patch>
+ TODO: Put a short summary on the line above and replace this paragraph
+ with a longer explanation of this change. Complete the meta-information
+ with other relevant fields (see below for details). To make it easier, the
+ information below has been extracted from the changelog. Adjust it or drop
+ it.
+ .
+ config-for-prometheus (1.1-1) UNRELEASED; urgency=medium
+ .
+   * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+Author: Denis <admin@local>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: https://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: 2025-10-13
+
+--- config-for-prometheus-1.1.orig/alerts.yml
++++ config-for-prometheus-1.1/alerts.yml
+@@ -52,3 +52,5 @@ groups:
+     annotations:
+       summary: "Высокий уровень сетевых ошибок на {{ $labels.instance }}"
+       description: "{{ $value }} ошибок в секунду на интерфейсе {{ $labels.device }}"
++
++  
+--- /dev/null
++++ config-for-prometheus-1.1/alerts_for_backup.yml
+@@ -0,0 +1,39 @@
++groups:
++  - name: storage_health
++    rules:
++
++      - alert: DiskSpaceCritical
++        expr: node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"} * 100 < 10
++        for: 5m
++        labels:
++          severity: critical
++        annotations:
++          summary: "Критически мало свободного места на диске"
++          description: "На {{ $labels.instance }} осталось менее 10% свободного места (текущее значение: {{ $value }}%)"
++
++      - alert: HighNetworkErrors
++        expr: rate(node_network_receive_errs_total[5m]) > 0.1
++        for: 3m
++        labels:
++          severity: warning
++        annotations:
++          summary: "Высокое количество сетевых ошибок"
++          description: "Интерфейс {{ $labels.device }} имеет много ошибок: {{ $value }}"
++
++      - alert: OutOfMemory
++        expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 5
++        for: 3m
++        labels:
++          severity: critical
++        annotations:
++          summary: "Критически мало свободной памяти"
++          description: "Доступно менее 5% памяти: {{ $value }}%"
++
++      - alert: GitlabDown
++        expr: up{job="gitlab"} == 0
++        for: 2m
++        labels:
++          severity: critical
++        annotations:
++          summary: "Gitlab недоступен"
++          description: "Gitlab на {{ $labels.instance }} недоступен более 2 минут"
+\ No newline at end of file
+--- config-for-prometheus-1.1.orig/prometheus.yml
++++ config-for-prometheus-1.1/prometheus.yml
+@@ -19,6 +19,7 @@ alerting:
+ # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+ rule_files:
+   - "alerts.yml"
++  - "alerts_for_backup.yml"
+   # - "first_rules.yml"
+   # - "second_rules.yml"
+ 
+@@ -47,3 +48,8 @@ scrape_configs:
+   - job_name: prometheus-alertmanager
+     static_configs:
+       - targets: [localhost:9093]
++
++  - job_name: 'gitlab'
++    static_configs:
++    - targets: ['gitlab:9090']
++    metrics_path: /metrics
+\ No newline at end of file

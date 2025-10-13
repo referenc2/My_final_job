@@ -1,1 +1,2 @@
 /etc/prometheus/alerts.yml
+/etc/prometheus/alerts_for_backup.yml

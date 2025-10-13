@@ -1,2 +1,3 @@
 ./prometheus.yml
 ./alerts.yml
+./alerts_for_backup.yml

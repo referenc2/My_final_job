@@ -2,7 +2,7 @@ Package: config-for-prometheus
 Version: 1.1-1
 Architecture: all
 Maintainer: Denis <admin@local>
-Installed-Size: 19
+Installed-Size: 21
 Depends: prometheus, prometheus-alertmanager, prometheus-node-exporter
 Section: unknown
 Priority: optional
