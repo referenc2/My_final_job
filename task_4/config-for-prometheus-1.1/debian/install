@@ -1,0 +1,2 @@
+prometheus.yml /usr/bin/
+alerts.yml /etc/prometheus/

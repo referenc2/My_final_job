@@ -1,0 +1,16 @@
+Source: config-for-prometheus
+Section: unknown
+Priority: optional
+Maintainer: Denis <admin@local>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.0
+Homepage: <insert the upstream URL, if relevant>
+#Vcs-Browser: https://salsa.debian.org/debian/config-for-prometheus
+#Vcs-Git: https://salsa.debian.org/debian/config-for-prometheus.git
+Rules-Requires-Root: no
+
+Package: config-for-prometheus
+Architecture: all
+Depends: prometheus, prometheus-alertmanager, prometheus-node-exporter
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>

@@ -1,0 +1,54 @@
+groups:
+- name: my_alerts
+  rules:
+
+  - alert: NodeDown
+    expr: up{job="node"} == 0
+    for: 30s
+    labels:
+      severity: critical
+      team: infra
+    annotations:
+      summary: "Узел {{ $labels.instance }} недоступен"
+      description: "Узел {{ $labels.instance }} не отвечает более 2 минут"
+      runbook_url: "https://wiki.company.com/node-down"
+
+  - alert: HighCPUUsage
+    expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+    for: 5m
+    labels:
+      severity: warning
+      team: infra
+    annotations:
+      summary: "Высокая загрузка CPU на {{ $labels.instance }}"
+      description: "CPU utilization is {{ $value }}%"
+
+  - alert: OutOfMemory
+    expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10
+    for: 2m
+    labels:
+      severity: critical
+      team: infra
+    annotations:
+      summary: "Мало памяти на {{ $labels.instance }}"
+      description: "Доступно только {{ $value }}% памяти"
+
+  - alert: DiskSpaceLow
+    expr: (1 - (node_filesystem_avail_bytes{fstype!="tmpfs"} / node_filesystem_size_bytes)) * 100 > 85
+    for: 5m
+    labels:
+      severity: warning
+      team: infra
+    annotations:
+      summary: "Мало места на диске {{ $labels.mountpoint }}"
+      description: "Использовано {{ $value }}% на {{ $labels.instance }}"
+
+  - alert: HighNetworkErrors
+    expr: rate(node_network_receive_errs_total[5m]) > 0.1
+    for: 2m
+    labels:
+      severity: warning
+      team: infra
+    annotations:
+      summary: "Высокий уровень сетевых ошибок на {{ $labels.instance }}"
+      description: "{{ $value }} ошибок в секунду на интерфейсе {{ $labels.device }}"
