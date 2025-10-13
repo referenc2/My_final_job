@@ -1,0 +1,39 @@
+groups:
+  - name: storage_health
+    rules:
+
+      - alert: DiskSpaceCritical
+        expr: node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"} * 100 < 10
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Критически мало свободного места на диске"
+          description: "На {{ $labels.instance }} осталось менее 10% свободного места (текущее значение: {{ $value }}%)"
+
+      - alert: HighNetworkErrors
+        expr: rate(node_network_receive_errs_total[5m]) > 0.1
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Высокое количество сетевых ошибок"
+          description: "Интерфейс {{ $labels.device }} имеет много ошибок: {{ $value }}"
+
+      - alert: OutOfMemory
+        expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 5
+        for: 3m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Критически мало свободной памяти"
+          description: "Доступно менее 5% памяти: {{ $value }}%"
+
+      - alert: GitlabDown
+        expr: up{job="gitlab"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Gitlab недоступен"
+          description: "Gitlab на {{ $labels.instance }} недоступен более 2 минут"

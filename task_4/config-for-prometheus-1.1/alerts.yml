@@ -52,3 +52,5 @@ groups:
     annotations:
       summary: "Высокий уровень сетевых ошибок на {{ $labels.instance }}"
       description: "{{ $value }} ошибок в секунду на интерфейсе {{ $labels.device }}"
+
+  

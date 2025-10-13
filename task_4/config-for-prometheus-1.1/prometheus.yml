@@ -19,6 +19,7 @@ alerting:
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 rule_files:
   - "alerts.yml"
+  - "alerts_for_backup.yml"
   # - "first_rules.yml"
   # - "second_rules.yml"
 
@@ -47,3 +48,8 @@ scrape_configs:
   - job_name: prometheus-alertmanager
     static_configs:
       - targets: [localhost:9093]
+
+  - job_name: 'gitlab'
+    static_configs:
+    - targets: ['gitlab:9090']
+    metrics_path: /metrics
